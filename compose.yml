@@ -1,0 +1,20 @@
+version: '3'
+services:
+  zipkin-container:
+    image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+  service-discovery-container:
+    image: service-discovery-ecommerce:0.1.0
+    ports:
+      - 8761:8761
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+  
+  user-service-container:
+    image: user-service-ecommerce:0.1.0
+    ports:
+      - 8700:8700
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+

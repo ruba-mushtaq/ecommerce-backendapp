@@ -1,0 +1,64 @@
+
+server:
+  servlet:
+    context-path: /user-service-ecommerce
+eureka:
+   client:
+    register-with-eureka: true
+    fetch-registry: true
+   # service-url:
+       #defaultZone: http://localhost:8762/eureka/
+ 
+  
+
+
+spring:
+  zipkin:
+    base-url: ${SPRING_ZIPKIN_BASE_URL:http://localhost:9411/}
+ ## config:
+   ## import: ${SPRING_CONFIG_IMPORT:optional:configserver:http://localhost:9296}
+  application:
+    name: USER-SERVICE-ECOMMERCE
+  profiles:
+    active:
+    - dev
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userService:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        wait-duration-in-open-state: 5s
+        sliding-window-type: COUNT_BASED
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+
+
+
+#eureka:
+ # instance:
+  #  lease-renewal-interval-in-seconds: 10  # Heartbeat interval
+   # lease-expiration-duration-in-seconds: 30  # Time after which instance is evicted if no heartbeat
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#    registry-fetch-interval-seconds: 5  # How often the client fetches updated registry
+
+
+
+
+
